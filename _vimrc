@@ -1,0 +1,118 @@
+" My custom vim config
+set nocompatible                  " compatible onli with vim
+set number
+syntax on
+
+let mapleader = " " 
+ 
+filetype plugin indent on
+set termguicolors
+set cursorline
+filetype on
+filetype plugin on
+filetype indent on
+set showcmd                       " Display incomplete commands.
+
+set mouse=a
+set backspace=indent,eol,start    " Intuitive backspacing.
+
+set hidden                        " Handle multiple buffers better.
+
+set autoindent                    " Auto indent
+set smartindent                   " Smart indent
+
+set wildmenu                      " Enhanced command line completion.
+set wildmode=list:longest         " Complete files like a shell.
+
+set ignorecase                    " Case-insensitive searching.
+set smartcase                     " But case-sensitive if expression contains a capital letter.
+
+set number
+set relativenumber                " Show line numbers.
+set ruler                         " Show cursor position.
+
+set incsearch                     " Highlight matches as you type.
+set hlsearch                      " Highlight matches.
+
+set wrap                          " Turn on line wrapping.
+set title                         " Set the terminal's title
+
+set laststatus=2
+
+:set guioptions-=m  "remove menu bar
+:set guioptions-=T  "remove toolbar
+:set guioptions-=r  "remove right-hand scroll bar
+:set guioptions-=L  "remove left-hand scroll bar
+
+set clipboard=unnamed
+
+
+" PLUGINS
+call plug#begin('~/.vim/plugged')
+
+Plug 'preservim/nerdtree'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
+
+"-------------------------------------------------------------------------------
+
+"MAPPINGS
+
+" Type jj to exit insert mode quickly.
+inoremap jj <Esc>
+" Press the space bar to type the : character in command mode.
+nnoremap <space> :
+
+" Toggle NERDTree using CTRL+N
+map <C-n> :NERDTreeToggle<CR>
+
+" Python command to run the files
+"autocmd FileType python nnoremap <buffer> <F9> :update<bar>!python3 %<CR>
+
+" Map F9 to run all kinds of files
+map <F9> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+	exec "w"
+	if &filetype == 'c'
+		exec "!gcc % -o %<"
+		exec "!%<"
+	elseif &filetype == 'cpp'
+		exec "!g++ % -o %<"
+		exec "!%<"
+	elseif &filetype == 'java'
+		exec "!javac %"
+		exec "!java -cp %:p:h %:t:r"
+	elseif &filetype == 'python'
+		exec "!python3 %"
+	elseif &filetype == 'html'
+		exec "!start firefox % &"
+	elseif &filetype == 'go'
+		exec "!go build %<"
+		exec "!go run %"
+	elseif &filetype == 'mkd'
+		exec "!perl ~/.vim/markdown.pl % > %.html &"
+		exec "!start firefox %.html &"
+	endif
+endfunc
+
+"-------------------------------------------------------------------------------
+
+" complete autocorrect using enter key
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" CTRL-Z and CTRL-Y for insert mode and normal mode - undo and redo
+inoremap <C-Z> <C-O>u
+inoremap <C-Y> <C-O><C-R>
+nnoremap <C-Z> u
+nnoremap <C-Y> <C-R>
+
+
+" Theme
+colorscheme molokai
+let g:airline_theme='molokai'
+let g:airline_powerline_fonts = 1
