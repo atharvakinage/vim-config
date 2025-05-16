@@ -56,7 +56,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ryanoasis/vim-devicons'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 
 call plug#end()
 
@@ -95,8 +94,9 @@ func! CompileRunGcc()
 	elseif &filetype == 'go'
 		exec "!go build %<"
 		exec "!go run %"
-	elseif &filetype == 'markdown'
-		exec "MarkdownPreview"
+	elseif &filetype == 'mkd'
+		exec "!perl ~/.vim/markdown.pl % > %.html &"
+		exec "!start firefox %.html &"
 	endif
 endfunc
 
@@ -116,3 +116,4 @@ nnoremap <C-Y> <C-R>
 colorscheme molokai
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
+
