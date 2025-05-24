@@ -57,6 +57,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'ryanoasis/vim-devicons'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'mhinz/vim-startify'
 
 call plug#end()
 
@@ -110,7 +111,6 @@ inoremap <C-Z> <C-O>u
 inoremap <C-Y> <C-O><C-R>
 nnoremap <C-Z> u
 nnoremap <C-Y> <C-R>
-
 
 " Theme
 colorscheme molokai
